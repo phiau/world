@@ -5,9 +5,7 @@ import com.phiau.cache.base.ICachePrimaryKey;
 import com.phiau.cache.core.ICacheMap;
 import org.springframework.data.redis.core.BoundHashOperations;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -64,15 +62,7 @@ public class AbstractCacheRedisMap<V extends ICachePrimaryKey> extends AbstractC
 
     @Override
     public Collection<V> values() {
-        List<String> list = boundHashOperations().values();
-        if (null != list && 0 < list.size()) {
-            List<V> ss = new ArrayList<>(list.size());
-            for (String string : list) {
-                ss.add(decode(string));
-            }
-            return ss;
-        }
-        return null;
+        return string2Entity(boundHashOperations().values());
     }
 
     @Override

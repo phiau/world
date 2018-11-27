@@ -4,7 +4,6 @@ import com.phiau.cache.base.CachePathUtil;
 import com.phiau.cache.core.ICacheList;
 import org.springframework.data.redis.core.BoundListOperations;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,9 +15,7 @@ public class AbstractCacheRedisList<E> extends AbstractCacheRedis<E> implements 
 
     @Override
     public E get(int index) {
-        String s = boundListOps().index(index);
-        if (null == s) return null;
-        return decode(s);
+        return decode(boundListOps().index(index));
     }
 
     @Override
@@ -42,13 +39,7 @@ public class AbstractCacheRedisList<E> extends AbstractCacheRedis<E> implements 
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        List<String> sl = boundListOps().range(fromIndex, toIndex);
-        if (null == sl) return null;
-        List<E> list = new ArrayList<>(sl.size());
-        for (String s : sl) {
-            list.add(decode(s));
-        }
-        return list;
+        return string2Entity(boundListOps().range(fromIndex, toIndex));
     }
 
     @Override
@@ -69,16 +60,12 @@ public class AbstractCacheRedisList<E> extends AbstractCacheRedis<E> implements 
 
     @Override
     public E getAndRemoveFirst() {
-        String s = boundListOps().leftPop();
-        if (null == s) return null;
-        return decode(s);
+        return decode(boundListOps().leftPop());
     }
 
     @Override
     public E getAndRemoveLast() {
-        String s = boundListOps().rightPop();
-        if (null == s) return null;
-        return decode(s);
+        return decode(boundListOps().rightPop());
     }
 
     @Override

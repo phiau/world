@@ -20,55 +20,51 @@ public class CacheRedisListTest extends BaseJunit4Test {
 
     @Test
     public void test() {
-        CacheRedisListEntry entry00 = new CacheRedisListEntry();
-        entry00.setContent("entry00");
-        CacheRedisListEntry entry01 = new CacheRedisListEntry();
-        entry01.setContent("entry01");
-        CacheRedisListEntry entry02 = new CacheRedisListEntry();
-        entry02.setContent("entry02");
-        CacheRedisListEntry entry03 = new CacheRedisListEntry();
-        entry03.setContent("entry03");
+        CacheRedisListEntity entity00 = new CacheRedisListEntity("entity00");
+        CacheRedisListEntity entity01 = new CacheRedisListEntity("entity01");
+        CacheRedisListEntity entity02 = new CacheRedisListEntity("entity02");
+        CacheRedisListEntity entity03 = new CacheRedisListEntity("entity03");
         /** 先清空 */
         service.clear();
         Assert.assertTrue(service.isEmpty());
         Assert.assertTrue(0 == service.size());
         /** 加入一个 */
-        service.add(entry00);
+        service.add(entity00);
         Assert.assertTrue(1 == service.size());
         /** 再加入一个 */
-        service.add(entry01);
+        service.add(entity01);
         Assert.assertTrue(2 == service.size());
 
-        CacheRedisListEntry entryVerify00 = service.get(0);
-        CacheRedisListEntry entryVerify01 = service.get(1);
-        Assert.assertTrue(entryVerify00.equals(entry00));
-        Assert.assertTrue(entryVerify01.equals(entry01));
+        CacheRedisListEntity entityVerify00 = service.get(0);
+        CacheRedisListEntity entityVerify01 = service.get(1);
+        Assert.assertTrue(entityVerify00.equals(entity00));
+        Assert.assertTrue(entityVerify01.equals(entity01));
         /** set */
-        service.set(1, entry00);
-        entryVerify01 = service.get(1);
-        Assert.assertTrue(!entry01.equals(entryVerify01));
+        service.set(1, entity00);
+        entityVerify01 = service.get(1);
+        Assert.assertTrue(!entity01.equals(entityVerify01));
         /** first last */
-        CacheRedisListEntry first = service.getAndRemoveFirst();
-        CacheRedisListEntry last = service.getAndRemoveLast();
-        Assert.assertTrue(first.equals(entry00));
-        Assert.assertTrue(!last.equals(entry01));
+        CacheRedisListEntity first = service.getAndRemoveFirst();
+        CacheRedisListEntity last = service.getAndRemoveLast();
+        Assert.assertTrue(first.equals(entity00));
+        Assert.assertTrue(!last.equals(entity01));
 
         /** 重新加入 */
-        service.add(entry00);
-        service.add(entry01);
-        service.add(entry02);
-        service.add(entry03);
+        service.add(entity00);
+        service.add(entity01);
+        service.add(entity02);
+        service.add(entity03);
         /** sub */
-        List<CacheRedisListEntry> list = service.subList(1, 2);
-        Assert.assertTrue(entry01.equals(list.get(0)));
-        Assert.assertTrue(entry02.equals(list.get(1)));
+        List<CacheRedisListEntity> list = service.subList(1, 2);
+        Assert.assertTrue(entity01.equals(list.get(0)));
+        Assert.assertTrue(entity02.equals(list.get(1)));
         /** remove */
-        CacheRedisListEntry rmEntry = service.remove(2);
-        Assert.assertTrue(rmEntry.equals(entry02));
-        Assert.assertTrue(!service.remove(rmEntry));
+        CacheRedisListEntity rmEntity = service.remove(2);
+        Assert.assertTrue(rmEntity.equals(entity02));
+        Assert.assertTrue(!service.remove(rmEntity));
         /** 重新加入，然后在删除 */
-        service.add(rmEntry);
-        Assert.assertTrue(service.remove(rmEntry));
+        service.add(rmEntity);
+        Assert.assertTrue(service.remove(rmEntity));
         /** 清空 */
         service.clear();
         Assert.assertTrue(service.isEmpty());
@@ -76,15 +72,18 @@ public class CacheRedisListTest extends BaseJunit4Test {
     }
 
     @Component
-    public static class CacheRedisListServiceTest extends AbstractCacheRedisList<CacheRedisListEntry> {
+    public static class CacheRedisListServiceTest extends AbstractCacheRedisList<CacheRedisListEntity> {
         @Override
         public String path() {
             return CachePathUtil.cachePath2String(super.path(), "CacheRedisListServiceTest");
         }
     }
 
-    private static class CacheRedisListEntry {
+    private static class CacheRedisListEntity {
         private String content;
+
+        public CacheRedisListEntity() {}
+        public CacheRedisListEntity(String content) { this.content = content; }
         public String getContent() { return content; }
         public void setContent(String content) { this.content = content; }
 
@@ -93,7 +92,7 @@ public class CacheRedisListTest extends BaseJunit4Test {
             if (this == obj) return true;
             if (null == obj) return false;
             if (getClass() != obj.getClass()) return false;
-            CacheRedisListTest.CacheRedisListEntry other = (CacheRedisListTest.CacheRedisListEntry) obj;
+            CacheRedisListEntity other = (CacheRedisListEntity) obj;
             return content.equals(other.content);
         }
     }

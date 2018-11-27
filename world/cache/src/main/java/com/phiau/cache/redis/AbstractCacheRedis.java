@@ -7,6 +7,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * User: zhenbiao.cai
@@ -31,6 +35,11 @@ public abstract class AbstractCacheRedis<V> extends AbstractCacheRedisLock imple
         }
     }
 
+    protected List<V> string2Entity(Collection<String> ss) {
+        if (null == ss) return null;
+        return ss.stream().map(s -> decode(s)).collect(Collectors.toList());
+    }
+
     @Override
     public String encode(V v) {
         return JsonUtil.toJsonString(v);
@@ -38,6 +47,7 @@ public abstract class AbstractCacheRedis<V> extends AbstractCacheRedisLock imple
 
     @Override
     public V decode(String s) {
+        if (null == s) return null;
         return JsonUtil.toInstance(s, clazz);
     }
 

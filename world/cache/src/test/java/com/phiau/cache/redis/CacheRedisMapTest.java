@@ -25,11 +25,11 @@ public class CacheRedisMapTest extends BaseJunit4Test {
         /** 先清空 */
         service.clear();
         String primary01 = "primary01";
-        CacheRedisMapEntry redisMapEntry = new CacheRedisMapEntry();
-        redisMapEntry.setPrimary(primary01);
-        redisMapEntry.setContent("content01");
+        CacheRedisMapEntity redisMapEntity = new CacheRedisMapEntity();
+        redisMapEntity.setPrimary(primary01);
+        redisMapEntity.setContent("content01");
         /** 添加 */
-        service.put(redisMapEntry);
+        service.put(redisMapEntity);
         boolean contains = service.containsKey(primary01);
         Assert.assertTrue(contains);
         /** 删除 */
@@ -39,17 +39,17 @@ public class CacheRedisMapTest extends BaseJunit4Test {
         boolean empty = service.isEmpty();
         Assert.assertTrue(empty);
         /** 获取 */
-        service.put(redisMapEntry);
-        CacheRedisMapEntry otherEntry = service.get(primary01);
-        Assert.assertTrue(redisMapEntry.equals(otherEntry));
+        service.put(redisMapEntity);
+        CacheRedisMapEntity otherEntity = service.get(primary01);
+        Assert.assertTrue(redisMapEntity.equals(otherEntity));
         empty = service.isEmpty();
         Assert.assertTrue(!empty);
         /** 键集合 */
         Set<String> keySet = service.keySet();
         Assert.assertTrue(1 == keySet.size() && keySet.contains(primary01));
         /** 值集合 */
-        Collection<CacheRedisMapEntry> value = service.values();
-        Assert.assertTrue(1 == value.size() && value.contains(redisMapEntry));
+        Collection<CacheRedisMapEntity> value = service.values();
+        Assert.assertTrue(1 == value.size() && value.contains(redisMapEntity));
         /** 清空 */
         service.clear();
         Assert.assertTrue(service.isEmpty());
@@ -57,14 +57,14 @@ public class CacheRedisMapTest extends BaseJunit4Test {
     }
 
     @Component
-    public static class CacheRedisMapServiceTest extends AbstractCacheRedisMap<CacheRedisMapEntry> {
+    public static class CacheRedisMapServiceTest extends AbstractCacheRedisMap<CacheRedisMapEntity> {
         @Override
         public String path() {
             return CachePathUtil.cachePath2String(super.path(), "CacheRedisMapServiceTest");
         }
     }
 
-    private static class CacheRedisMapEntry implements ICachePrimaryKey {
+    private static class CacheRedisMapEntity implements ICachePrimaryKey {
         private String primary;
         private String content;
 
@@ -80,7 +80,7 @@ public class CacheRedisMapTest extends BaseJunit4Test {
             if (this == obj) return true;
             if (null == obj) return false;
             if (getClass() != obj.getClass()) return false;
-            CacheRedisMapEntry other = (CacheRedisMapEntry) obj;
+            CacheRedisMapEntity other = (CacheRedisMapEntity) obj;
             return primary.equals(other.primary) && content.equals(other.content);
         }
     }
