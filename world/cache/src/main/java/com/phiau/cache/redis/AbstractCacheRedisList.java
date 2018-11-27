@@ -4,6 +4,7 @@ import com.phiau.cache.base.CachePathUtil;
 import com.phiau.cache.core.ICacheList;
 import org.springframework.data.redis.core.BoundListOperations;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,52 +22,73 @@ public class AbstractCacheRedisList<E> extends AbstractCacheRedis<E> implements 
     }
 
     @Override
-    public long set(int index, E element) {
-        return boundListOps().leftPush(encode(element));
-    }
-
-    @Override
-    public void add(int index, E element) {
+    public void set(int index, E element) {
+        boundListOps().set(index, encode(element));
     }
 
     @Override
     public E remove(int index) {
-        return null;
+        E e = get(index);
+        if (null != e) {
+            remove(e);
+        }
+        return e;
+    }
+
+    @Override
+    public boolean remove(E e) {
+        return 0 < boundListOps().remove(1, encode(e));
     }
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        return null;
+        List<String> sl = boundListOps().range(fromIndex, toIndex);
+        if (null == sl) return null;
+        List<E> list = new ArrayList<>(sl.size());
+        for (String s : sl) {
+            list.add(decode(s));
+        }
+        return list;
     }
 
     @Override
     public int size() {
-        return 0;
+        Long size = boundListOps().size();
+        return null != size ? (int) (long) size : 0;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return 0 >= size();
     }
 
     @Override
-    public boolean add(E e) {
-        return false;
+    public void add(E e) {
+        boundListOps().rightPush(encode(e));
     }
 
     @Override
-    public boolean remove(Object o) {
-        return false;
+    public E getAndRemoveFirst() {
+        String s = boundListOps().leftPop();
+        if (null == s) return null;
+        return decode(s);
+    }
+
+    @Override
+    public E getAndRemoveLast() {
+        String s = boundListOps().rightPop();
+        if (null == s) return null;
+        return decode(s);
     }
 
     @Override
     public void clear() {
-
+        redisTemplate.delete(path());
     }
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        throw new UnsupportedOperationException("Redis List can't get iterator");
     }
 
     private final BoundListOperations<String, String> boundListOps() {

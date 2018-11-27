@@ -6,7 +6,7 @@ package com.phiau.cache.core;
  */
 public interface ICacheSet<E> extends ICacheCollection<E> {
 
-    boolean add(E e);
+    void add(E e);
 
     boolean remove(Object o);
 }

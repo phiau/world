@@ -12,9 +12,10 @@ public interface ICacheCollection<E> {
 
     boolean isEmpty();
 
-    boolean add(E e);
+    void add(E e);
 
-    boolean remove(Object o);
+    /** 使用这个必须确保内存数据和缓存的一致 */
+    boolean remove(E e);
 
     void clear();
 

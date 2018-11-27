@@ -10,11 +10,13 @@ public interface ICacheList<E> extends ICacheCollection<E> {
 
     E get(int index);
 
-    long set(int index, E element);
-
-    void add(int index, E element);
+    void set(int index, E element);
 
     E remove(int index);
+
+    E getAndRemoveFirst();
+
+    E getAndRemoveLast();
 
     List<E> subList(int fromIndex, int toIndex);
 }

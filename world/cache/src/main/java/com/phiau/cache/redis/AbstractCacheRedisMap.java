@@ -29,12 +29,12 @@ public class AbstractCacheRedisMap<V extends ICachePrimaryKey> extends AbstractC
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(String key) {
         return boundHashOperations().hasKey(key);
     }
 
     @Override
-    public V get(Object key) {
+    public V get(String key) {
         Object object = boundHashOperations().get(key);
         if (null == object) {
             return null;
@@ -48,7 +48,7 @@ public class AbstractCacheRedisMap<V extends ICachePrimaryKey> extends AbstractC
     }
 
     @Override
-    public void remove(Object key) {
+    public void remove(String key) {
         boundHashOperations().delete(key);
     }
 
@@ -58,7 +58,7 @@ public class AbstractCacheRedisMap<V extends ICachePrimaryKey> extends AbstractC
     }
 
     @Override
-    public Set<Object> keySet() {
+    public Set<String> keySet() {
         return boundHashOperations().keys();
     }
 

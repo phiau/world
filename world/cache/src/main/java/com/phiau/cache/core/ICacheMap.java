@@ -15,17 +15,17 @@ public interface ICacheMap<V extends ICachePrimaryKey> {
 
     boolean isEmpty();
 
-    boolean containsKey(Object key);
+    boolean containsKey(String key);
 
-    V get(Object key);
+    V get(String key);
 
     void put(V value);
 
-    void remove(Object key);
+    void remove(String key);
 
     void clear();
 
-    Set<Object> keySet();
+    Set<String> keySet();
 
     Collection<V> values();
 }
