@@ -1,9 +1,9 @@
 package com.phiau.cache.base;
 
 /**
- * User: zhenbiao.cai
- * Date: 2018-11-26 21:49
+ * @author zhenbiao.cai
+ * @date 2018/11/28 20:57
  */
-public interface ICachePrefixKey extends ICachePrimaryKey {
+public interface ICachePrefixKey {
     String prefixKey();
 }

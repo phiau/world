@@ -60,7 +60,7 @@ public class CacheRedisMapTest extends BaseJunit4Test {
     public static class CacheRedisMapServiceTest extends AbstractCacheRedisMap<CacheRedisMapEntity> {
         @Override
         public String path() {
-            return CachePathUtil.cachePath2String(super.path(), "CacheRedisMapServiceTest");
+            return CachePathUtil.cachePath2String(super.path(), "cacheRedisMapServiceTest");
         }
     }
 

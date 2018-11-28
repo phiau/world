@@ -35,7 +35,7 @@ public abstract class AbstractCacheRedis<V> extends AbstractCacheRedisLock imple
         }
     }
 
-    protected List<V> string2Entity(Collection<String> ss) {
+    public List<V> string2Entity(Collection<String> ss) {
         if (null == ss) return null;
         return ss.stream().map(s -> decode(s)).collect(Collectors.toList());
     }
