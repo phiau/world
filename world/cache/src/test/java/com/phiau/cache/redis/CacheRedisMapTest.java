@@ -2,7 +2,6 @@ package com.phiau.cache.redis;
 
 import com.phiau.BaseJunit4Test;
 import com.phiau.cache.base.CachePathUtil;
-import com.phiau.cache.base.ICachePrimaryKey;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class CacheRedisMapTest extends BaseJunit4Test {
         redisMapEntity.setPrimary(primary01);
         redisMapEntity.setContent("content01");
         /** 添加 */
-        service.put(redisMapEntity);
+        service.put(redisMapEntity.primary, redisMapEntity);
         boolean contains = service.containsKey(primary01);
         Assert.assertTrue(contains);
         /** 删除 */
@@ -39,7 +38,7 @@ public class CacheRedisMapTest extends BaseJunit4Test {
         boolean empty = service.isEmpty();
         Assert.assertTrue(empty);
         /** 获取 */
-        service.put(redisMapEntity);
+        service.put(redisMapEntity.primary, redisMapEntity);
         CacheRedisMapEntity otherEntity = service.get(primary01);
         Assert.assertTrue(redisMapEntity.equals(otherEntity));
         empty = service.isEmpty();
@@ -64,7 +63,7 @@ public class CacheRedisMapTest extends BaseJunit4Test {
         }
     }
 
-    private static class CacheRedisMapEntity implements ICachePrimaryKey {
+    private static class CacheRedisMapEntity {
         private String primary;
         private String content;
 
@@ -72,8 +71,6 @@ public class CacheRedisMapTest extends BaseJunit4Test {
         public void setPrimary(String primary) { this.primary = primary; }
         public String getContent() { return content; }
         public void setContent(String content) { this.content = content; }
-        @Override
-        public String primaryKey() { return primary; }
 
         @Override
         public boolean equals(Object obj) {

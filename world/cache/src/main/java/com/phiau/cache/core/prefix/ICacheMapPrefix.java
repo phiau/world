@@ -1,7 +1,5 @@
 package com.phiau.cache.core.prefix;
 
-import com.phiau.cache.base.ICachePrimaryKeyWithPrefix;
-
 import java.util.Collection;
 import java.util.Set;
 
@@ -9,7 +7,7 @@ import java.util.Set;
  * @author zhenbiao.cai
  * @date 2018/11/28 19:49
  */
-public interface ICacheMapPrefix<V extends ICachePrimaryKeyWithPrefix> {
+public interface ICacheMapPrefix<V> {
 
     long size(String prefixKey);
 
@@ -19,7 +17,7 @@ public interface ICacheMapPrefix<V extends ICachePrimaryKeyWithPrefix> {
 
     V get(String prefixKey, String key);
 
-    void put(V value);
+    void put(String prefixKey, String primaryKey, V value);
 
     void remove(String prefixKey, String key);
 

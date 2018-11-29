@@ -1,7 +1,6 @@
 package com.phiau.cache.redis;
 
 import com.phiau.cache.base.CachePathUtil;
-import com.phiau.cache.base.ICachePrimaryKey;
 import com.phiau.cache.core.ICacheMap;
 import com.phiau.cache.redis.proxy.CacheRedisMapProxy;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -13,9 +12,9 @@ import java.util.Set;
  * User: zhenbiao.cai
  * Date: 2018-11-26 23:59
  */
-public class AbstractCacheRedisMap<V extends ICachePrimaryKey> extends AbstractCacheRedis<V> implements ICacheMap<V> {
+public class AbstractCacheRedisMap<V> extends AbstractCacheRedis<V> implements ICacheMap<V> {
 
-    private CacheRedisMapProxy<V> proxy = new CacheRedisMapProxy<>();
+    private CacheRedisMapProxy<V> proxy = new CacheRedisMapProxy<>(this);
 
     @Override
     public long size() {
@@ -34,12 +33,12 @@ public class AbstractCacheRedisMap<V extends ICachePrimaryKey> extends AbstractC
 
     @Override
     public V get(String key) {
-        return proxy.get(hashOperations(), key, this);
+        return proxy.get(hashOperations(), key);
     }
 
     @Override
-    public void put(V value) {
-        proxy.put(hashOperations(), value, this);
+    public void put(String primaryKey, V value) {
+        proxy.put(hashOperations(), primaryKey, value);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class AbstractCacheRedisMap<V extends ICachePrimaryKey> extends AbstractC
 
     @Override
     public Collection<V> values() {
-        return proxy.values(hashOperations(), this);
+        return proxy.values(hashOperations());
     }
 
     @Override

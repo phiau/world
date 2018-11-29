@@ -1,7 +1,6 @@
 package com.phiau.cache.redis.prefix;
 
 import com.phiau.cache.base.CachePathUtil;
-import com.phiau.cache.base.ICachePrimaryKeyWithPrefix;
 import com.phiau.cache.core.prefix.ICacheMapPrefix;
 import com.phiau.cache.redis.AbstractCacheRedis;
 import com.phiau.cache.redis.proxy.CacheRedisMapProxy;
@@ -14,9 +13,9 @@ import java.util.Set;
  * @author zhenbiao.cai
  * @date 2018/11/28 20:02
  */
-public class AbstractCacheRedisMapPrefix<V extends ICachePrimaryKeyWithPrefix> extends AbstractCacheRedis<V> implements ICacheMapPrefix<V> {
+public class AbstractCacheRedisMapPrefix<V> extends AbstractCacheRedis<V> implements ICacheMapPrefix<V> {
 
-    private CacheRedisMapProxy<V> proxy = new CacheRedisMapProxy<>();
+    private CacheRedisMapProxy<V> proxy = new CacheRedisMapProxy<>(this);
 
     @Override
     public long size(String prefixKey) {
@@ -35,12 +34,12 @@ public class AbstractCacheRedisMapPrefix<V extends ICachePrimaryKeyWithPrefix> e
 
     @Override
     public V get(String prefixKey, String key) {
-        return proxy.get(hashOperations(prefixKey), key, this);
+        return proxy.get(hashOperations(prefixKey), key);
     }
 
     @Override
-    public void put(V value) {
-        proxy.put(hashOperations(value.prefixKey()), value, this);
+    public void put(String prefixKey, String primaryKey, V value) {
+        proxy.put(hashOperations(prefixKey), primaryKey, value);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class AbstractCacheRedisMapPrefix<V extends ICachePrimaryKeyWithPrefix> e
 
     @Override
     public Collection<V> values(String prefixKey) {
-        return proxy.values(hashOperations(prefixKey), this);
+        return proxy.values(hashOperations(prefixKey));
     }
 
     @Override

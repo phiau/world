@@ -1,7 +1,5 @@
 package com.phiau.cache.core;
 
-import com.phiau.cache.base.ICachePrimaryKey;
-
 import java.util.Collection;
 import java.util.Set;
 
@@ -9,7 +7,7 @@ import java.util.Set;
  * User: zhenbiao.cai
  * Date: 2018-11-26 21:57
  */
-public interface ICacheMap<V extends ICachePrimaryKey> {
+public interface ICacheMap<V> {
 
     long size();
 
@@ -19,7 +17,7 @@ public interface ICacheMap<V extends ICachePrimaryKey> {
 
     V get(String key);
 
-    void put(V value);
+    void put(String primaryKey, V value);
 
     void remove(String key);
 

@@ -2,6 +2,7 @@ package com.phiau.cache.redis;
 
 import com.phiau.cache.base.CachePathUtil;
 import com.phiau.cache.core.ICacheList;
+import com.phiau.cache.redis.proxy.CacheRedisListProxy;
 import org.springframework.data.redis.core.BoundListOperations;
 
 import java.util.Iterator;
@@ -13,14 +14,16 @@ import java.util.List;
  */
 public class AbstractCacheRedisList<E> extends AbstractCacheRedis<E> implements ICacheList<E> {
 
+    private CacheRedisListProxy<E> proxy = new CacheRedisListProxy<>(this);
+
     @Override
     public E get(int index) {
-        return decode(boundListOps().index(index));
+        return proxy.get(boundListOps(), index);
     }
 
     @Override
     public void set(int index, E element) {
-        boundListOps().set(index, encode(element));
+        proxy.set(boundListOps(), index, element);
     }
 
     @Override
@@ -34,18 +37,17 @@ public class AbstractCacheRedisList<E> extends AbstractCacheRedis<E> implements 
 
     @Override
     public boolean remove(E e) {
-        return 0 < boundListOps().remove(1, encode(e));
+        return proxy.remove(boundListOps(), e);
     }
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        return string2Entity(boundListOps().range(fromIndex, toIndex));
+        return proxy.subList(boundListOps(), fromIndex, toIndex);
     }
 
     @Override
     public int size() {
-        Long size = boundListOps().size();
-        return null != size ? (int) (long) size : 0;
+        return proxy.size(boundListOps());
     }
 
     @Override
@@ -55,22 +57,22 @@ public class AbstractCacheRedisList<E> extends AbstractCacheRedis<E> implements 
 
     @Override
     public void add(E e) {
-        boundListOps().rightPush(encode(e));
+        proxy.add(boundListOps(), e);
     }
 
     @Override
     public E getAndRemoveFirst() {
-        return decode(boundListOps().leftPop());
+        return proxy.getAndRemoveFirst(boundListOps());
     }
 
     @Override
     public E getAndRemoveLast() {
-        return decode(boundListOps().rightPop());
+        return proxy.getAndRemoveLast(boundListOps());
     }
 
     @Override
     public void clear() {
-        redisTemplate.delete(path());
+        proxy.clear(redisTemplate, path());
     }
 
     @Override
