@@ -2,21 +2,17 @@ package com.phiau.cache.redis.proxy;
 
 import com.phiau.cache.base.ICacheSerialize;
 import org.springframework.data.redis.core.BoundListOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
  * @author zhenbiao.cai
  * @date 2018/11/29 16:50
  */
-public class CacheRedisListProxy<E> implements ICacheSerialize<E> {
-
-    private ICacheSerialize<E> serialize;
+public class CacheRedisListProxy<E> extends AbstractRedisProxy<E> {
 
     public CacheRedisListProxy(ICacheSerialize<E> serialize) {
-        this.serialize = serialize;
+        super(serialize);
     }
 
     public E get(BoundListOperations operations, int index) {
@@ -50,26 +46,5 @@ public class CacheRedisListProxy<E> implements ICacheSerialize<E> {
 
     public E getAndRemoveLast(BoundListOperations operations) {
         return decode((String) operations.rightPop());
-    }
-
-    public void clear(RedisTemplate redisTemplate, String path) {
-        redisTemplate.delete(path);
-    }
-
-    /** ICacheSerialize proxy */
-
-    @Override
-    public List<E> string2Entity(Collection<String> ss) {
-        return serialize.string2Entity(ss);
-    }
-
-    @Override
-    public String encode(E e) {
-        return serialize.encode(e);
-    }
-
-    @Override
-    public E decode(String s) {
-        return serialize.decode(s);
     }
 }

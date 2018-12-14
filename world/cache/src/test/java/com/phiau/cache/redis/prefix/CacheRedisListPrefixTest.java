@@ -21,10 +21,10 @@ public class CacheRedisListPrefixTest extends BaseJunit4Test {
     @Test
     public void test() {
         String prefix = "prefix";
-        CacheRedisListPrefixTest.CacheRedisListPrefixEntity entity00 = new CacheRedisListPrefixTest.CacheRedisListPrefixEntity(prefix, "entity00");
-        CacheRedisListPrefixTest.CacheRedisListPrefixEntity entity01 = new CacheRedisListPrefixTest.CacheRedisListPrefixEntity(prefix, "entity01");
-        CacheRedisListPrefixTest.CacheRedisListPrefixEntity entity02 = new CacheRedisListPrefixTest.CacheRedisListPrefixEntity(prefix, "entity02");
-        CacheRedisListPrefixTest.CacheRedisListPrefixEntity entity03 = new CacheRedisListPrefixTest.CacheRedisListPrefixEntity(prefix, "entity03");
+        CacheRedisListPrefixEntity entity00 = new CacheRedisListPrefixEntity(prefix, "entity00");
+        CacheRedisListPrefixEntity entity01 = new CacheRedisListPrefixEntity(prefix, "entity01");
+        CacheRedisListPrefixEntity entity02 = new CacheRedisListPrefixEntity(prefix, "entity02");
+        CacheRedisListPrefixEntity entity03 = new CacheRedisListPrefixEntity(prefix, "entity03");
         /** 先清空 */
         service.clear(prefix);
         Assert.assertTrue(service.isEmpty(prefix));
@@ -36,8 +36,8 @@ public class CacheRedisListPrefixTest extends BaseJunit4Test {
         service.add(prefix, entity01);
         Assert.assertTrue(2 == service.size(prefix));
 
-        CacheRedisListPrefixTest.CacheRedisListPrefixEntity entityVerify00 = service.get(prefix, 0);
-        CacheRedisListPrefixTest.CacheRedisListPrefixEntity entityVerify01 = service.get(prefix, 1);
+        CacheRedisListPrefixEntity entityVerify00 = service.get(prefix, 0);
+        CacheRedisListPrefixEntity entityVerify01 = service.get(prefix, 1);
         Assert.assertTrue(entityVerify00.equals(entity00));
         Assert.assertTrue(entityVerify01.equals(entity01));
         /** set */
@@ -45,8 +45,8 @@ public class CacheRedisListPrefixTest extends BaseJunit4Test {
         entityVerify01 = service.get(prefix, 1);
         Assert.assertTrue(!entity01.equals(entityVerify01));
         /** first last */
-        CacheRedisListPrefixTest.CacheRedisListPrefixEntity first = service.getAndRemoveFirst(prefix);
-        CacheRedisListPrefixTest.CacheRedisListPrefixEntity last = service.getAndRemoveLast(prefix);
+        CacheRedisListPrefixEntity first = service.getAndRemoveFirst(prefix);
+        CacheRedisListPrefixEntity last = service.getAndRemoveLast(prefix);
         Assert.assertTrue(first.equals(entity00));
         Assert.assertTrue(!last.equals(entity01));
 
@@ -56,11 +56,11 @@ public class CacheRedisListPrefixTest extends BaseJunit4Test {
         service.add(prefix, entity02);
         service.add(prefix, entity03);
         /** sub */
-        List<CacheRedisListPrefixTest.CacheRedisListPrefixEntity> list = service.subList(prefix, 1, 2);
+        List<CacheRedisListPrefixEntity> list = service.subList(prefix, 1, 2);
         Assert.assertTrue(entity01.equals(list.get(0)));
         Assert.assertTrue(entity02.equals(list.get(1)));
         /** remove */
-        CacheRedisListPrefixTest.CacheRedisListPrefixEntity rmEntity = service.remove(prefix, 2);
+        CacheRedisListPrefixEntity rmEntity = service.remove(prefix, 2);
         Assert.assertTrue(rmEntity.equals(entity02));
         Assert.assertTrue(!service.remove(prefix, rmEntity));
         /** 重新加入，然后在删除 */
@@ -102,7 +102,7 @@ public class CacheRedisListPrefixTest extends BaseJunit4Test {
             if (this == obj) return true;
             if (null == obj) return false;
             if (getClass() != obj.getClass()) return false;
-            CacheRedisListPrefixTest.CacheRedisListPrefixEntity other = (CacheRedisListPrefixTest.CacheRedisListPrefixEntity) obj;
+            CacheRedisListPrefixEntity other = (CacheRedisListPrefixEntity) obj;
             return content.equals(other.content) && prefix.equals(other.prefix);
         }
     }

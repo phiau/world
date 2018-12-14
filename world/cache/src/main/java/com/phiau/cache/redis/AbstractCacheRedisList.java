@@ -12,7 +12,7 @@ import java.util.List;
  * User: zhenbiao.cai
  * Date: 2018-11-27 0:13
  */
-public class AbstractCacheRedisList<E> extends AbstractCacheRedis<E> implements ICacheList<E> {
+public abstract class AbstractCacheRedisList<E> extends AbstractCacheRedis<E> implements ICacheList<E> {
 
     private CacheRedisListProxy<E> proxy = new CacheRedisListProxy<>(this);
 

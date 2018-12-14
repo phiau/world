@@ -2,6 +2,7 @@ package com.phiau.cache.redis;
 
 import com.phiau.cache.base.CachePathUtil;
 import com.phiau.cache.core.ICacheSet;
+import com.phiau.cache.redis.proxy.CacheRedisSetProxy;
 import org.springframework.data.redis.core.BoundSetOperations;
 
 import java.util.Collection;
@@ -11,32 +12,33 @@ import java.util.Iterator;
  * @author zhenbiao.cai
  * @date 2018/11/27 16:38
  */
-public class AbstractCacheRedisSet<E> extends AbstractCacheRedis<E> implements ICacheSet<E> {
+public abstract class AbstractCacheRedisSet<E> extends AbstractCacheRedis<E> implements ICacheSet<E> {
+
+    private CacheRedisSetProxy<E> proxy = new CacheRedisSetProxy<>(this);
 
     @Override
     public Collection<E> all() {
-        return string2Entity(setOperations().members());
+        return proxy.all(setOperations());
     }
 
     @Override
     public E randomMember() {
-        return decode(setOperations().randomMember());
+        return proxy.randomMember(setOperations());
     }
 
     @Override
     public Collection<E> randomMembers(int num) {
-        return string2Entity(setOperations().randomMembers(num));
+        return proxy.randomMembers(setOperations(), num);
     }
 
     @Override
     public boolean contains(E e) {
-        return setOperations().isMember(encode(e));
+        return proxy.contains(setOperations(), e);
     }
 
     @Override
     public int size() {
-        Long size = setOperations().size();
-        return null != size ? (int) (long) size : 0;
+        return proxy.size(setOperations());
     }
 
     @Override
@@ -46,12 +48,12 @@ public class AbstractCacheRedisSet<E> extends AbstractCacheRedis<E> implements I
 
     @Override
     public void add(E e) {
-        setOperations().add(encode(e));
+        proxy.add(setOperations(), e);
     }
 
     @Override
     public void clear() {
-        redisTemplate.delete(path());
+        proxy.clear(redisTemplate, path());
     }
 
     @Override
@@ -61,7 +63,7 @@ public class AbstractCacheRedisSet<E> extends AbstractCacheRedis<E> implements I
 
     @Override
     public boolean remove(E e) {
-        return 0 < setOperations().remove(encode(e));
+        return proxy.remove(setOperations(), e);
     }
 
     private final BoundSetOperations<String, String> setOperations() {

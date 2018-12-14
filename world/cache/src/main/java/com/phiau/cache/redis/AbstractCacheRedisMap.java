@@ -12,7 +12,7 @@ import java.util.Set;
  * User: zhenbiao.cai
  * Date: 2018-11-26 23:59
  */
-public class AbstractCacheRedisMap<V> extends AbstractCacheRedis<V> implements ICacheMap<V> {
+public abstract class AbstractCacheRedisMap<V> extends AbstractCacheRedis<V> implements ICacheMap<V> {
 
     private CacheRedisMapProxy<V> proxy = new CacheRedisMapProxy<>(this);
 
