@@ -31,12 +31,26 @@ public interface ICacheZSet extends ICacheCollection {
     double incrementScore(String key, double delta);
 
     /**
+     * 得到排名 rank 元素
+     * @param rank
+     * @return
+     */
+    String range(long rank);
+
+    /**
      * 得到排名在 start 和 end 之间的元素有序集合
      * @param start 从 0 开始算
      * @param end 如果是 -1，标识最后一个
      * @return
      */
     Set<String> range(long start, long end);
+
+    /**
+     * 得到排名 rank 元素
+     * @param rank
+     * @return
+     */
+    String reverseRange(long rank);
 
     Set<String> reverseRange(long start, long end);
 

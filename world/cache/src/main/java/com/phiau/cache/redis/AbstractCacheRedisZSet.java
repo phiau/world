@@ -32,8 +32,26 @@ public abstract class AbstractCacheRedisZSet extends AbstractCacheRedis implemen
     }
 
     @Override
+    public String range(long rank) {
+        Set<String> set = range(rank, rank);
+        if (null != set && 0 < set.size()) {
+            return set.iterator().next();
+        }
+        return null;
+    }
+
+    @Override
     public Set<String> range(long start, long end) {
         return proxy.range(zSetOperations(), start, end);
+    }
+
+    @Override
+    public String reverseRange(long rank) {
+        Set<String> set = reverseRange(rank, rank);
+        if (null != set && 0 < set.size()) {
+            return set.iterator().next();
+        }
+        return null;
     }
 
     @Override
