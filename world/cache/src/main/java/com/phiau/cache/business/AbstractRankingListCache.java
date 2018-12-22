@@ -14,6 +14,10 @@ import java.util.Set;
 public class AbstractRankingListCache implements IRankingList<String> {
 
     /**
+     * 固定大小，大于 0 有效
+     */
+    private int fixedSize = -1;
+    /**
      * zSet 默认的是从小到大
      */
     private ICacheZSet zSet;
@@ -28,6 +32,12 @@ public class AbstractRankingListCache implements IRankingList<String> {
 
     public AbstractRankingListCache(boolean reverse, ICacheZSet zSet) {
         this.reverse = reverse;
+        this.zSet = zSet;
+    }
+
+    public AbstractRankingListCache(boolean reverse, int fixedSize, ICacheZSet zSet) {
+        this.reverse = reverse;
+        this.fixedSize = fixedSize;
         this.zSet = zSet;
     }
 
@@ -103,6 +113,12 @@ public class AbstractRankingListCache implements IRankingList<String> {
     @Override
     public void setScore(String key, double delta) {
         zSet.add(key, delta);
+        if (0 < fixedSize) {
+            int size = size();
+            if (size > fixedSize) {
+                removeByRank(size);
+            }
+        }
     }
 
     @Override
