@@ -8,15 +8,15 @@ import java.util.Collection;
  */
 public interface ICacheSetPrefix<E> extends ICacheCollectionPrefix<E> {
 
-    boolean contains(String prefixKey, E e);
+    boolean contains(Object prefixKey, E e);
 
-    void add(String prefixKey, E e);
+    void add(Object prefixKey, E e);
 
-    boolean remove(String prefixKey, E e);
+    boolean remove(Object prefixKey, E e);
 
-    E randomMember(String prefixKey);
+    E randomMember(Object prefixKey);
 
-    Collection<E> randomMembers(String prefixKey, int num);
+    Collection<E> randomMembers(Object prefixKey, int num);
 
-    Collection<E> all(String prefixKey);
+    Collection<E> all(Object prefixKey);
 }

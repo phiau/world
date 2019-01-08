@@ -8,16 +8,16 @@ import java.util.Iterator;
  */
 public interface ICacheCollectionPrefix<E> {
 
-    int size(String prefixKey);
+    int size(Object prefixKey);
 
-    boolean isEmpty(String prefixKey);
+    boolean isEmpty(Object prefixKey);
 
-    void add(String prefixKey, E e);
+    void add(Object prefixKey, E e);
 
     /** 使用这个必须确保内存数据和缓存的一致 */
-    boolean remove(String prefixKey, E e);
+    boolean remove(Object prefixKey, E e);
 
-    void clear(String prefixKey);
+    void clear(Object prefixKey);
 
-    Iterator<E> iterator(String prefixKey);
+    Iterator<E> iterator(Object prefixKey);
 }

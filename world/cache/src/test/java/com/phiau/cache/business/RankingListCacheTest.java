@@ -77,9 +77,24 @@ public class RankingListCacheTest extends BaseJunit4Test {
         testComm(service, key, reverse);
     }
 
+    @Test
+    public void testFixedSize() {
+        boolean reverse = true;
+        RankingListCacheServiceTest service = new RankingListCacheServiceTest(reverse, 10, zSetService);
+        service.clear();
+        String key = "key";
+        int size = 16;
+        for (int i=1; i<size; i++) {
+            service.setScore(key + i, size - i);
+        }
+    }
+
     public class RankingListCacheServiceTest extends AbstractRankingListCache {
         public RankingListCacheServiceTest(boolean reverse, ICacheZSet zSet) {
             super(reverse, zSet);
+        }
+        public RankingListCacheServiceTest(boolean reverse, int fixedSize, ICacheZSet zSet) {
+            super(reverse, fixedSize, zSet);
         }
     }
 

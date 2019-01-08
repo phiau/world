@@ -18,47 +18,47 @@ public abstract class AbstractCacheRedisMapPrefix<V> extends AbstractCacheRedis<
     private CacheRedisMapProxy<V> proxy = new CacheRedisMapProxy<>(this);
 
     @Override
-    public long size(String prefixKey) {
+    public long size(Object prefixKey) {
         return proxy.size(hashOperations(prefixKey));
     }
 
     @Override
-    public boolean isEmpty(String prefixKey) {
+    public boolean isEmpty(Object prefixKey) {
         return 0 >= size(prefixKey);
     }
 
     @Override
-    public boolean containsKey(String prefixKey, String key) {
+    public boolean containsKey(Object prefixKey, String key) {
         return proxy.containsKey(hashOperations(prefixKey), key);
     }
 
     @Override
-    public V get(String prefixKey, String key) {
+    public V get(Object prefixKey, String key) {
         return proxy.get(hashOperations(prefixKey), key);
     }
 
     @Override
-    public void put(String prefixKey, String primaryKey, V value) {
+    public void put(Object prefixKey, String primaryKey, V value) {
         proxy.put(hashOperations(prefixKey), primaryKey, value);
     }
 
     @Override
-    public void remove(String prefixKey, String key) {
+    public void remove(Object prefixKey, String key) {
         proxy.remove(hashOperations(prefixKey), key);
     }
 
     @Override
-    public void clear(String prefixKey) {
+    public void clear(Object prefixKey) {
         proxy.clear(redisTemplate, CachePathUtil.cachePath2String(path(), prefixKey));
     }
 
     @Override
-    public Set<String> keySet(String prefixKey) {
+    public Set<String> keySet(Object prefixKey) {
         return proxy.keySet(hashOperations(prefixKey));
     }
 
     @Override
-    public Collection<V> values(String prefixKey) {
+    public Collection<V> values(Object prefixKey) {
         return proxy.values(hashOperations(prefixKey));
     }
 
@@ -67,7 +67,7 @@ public abstract class AbstractCacheRedisMapPrefix<V> extends AbstractCacheRedis<
         return CachePathUtil.cachePath2String(super.path(), "mapPrefix");
     }
 
-    private final BoundHashOperations hashOperations(String prefix) {
-        return redisTemplate.boundHashOps(CachePathUtil.cachePath2String(path(), prefix));
+    private final BoundHashOperations hashOperations(Object prefixKey) {
+        return redisTemplate.boundHashOps(CachePathUtil.cachePath2String(path(), prefixKey));
     }
 }

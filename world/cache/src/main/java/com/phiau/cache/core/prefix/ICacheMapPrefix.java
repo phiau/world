@@ -9,21 +9,21 @@ import java.util.Set;
  */
 public interface ICacheMapPrefix<V> {
 
-    long size(String prefixKey);
+    long size(Object prefixKey);
 
-    boolean isEmpty(String prefixKey);
+    boolean isEmpty(Object prefixKey);
 
-    boolean containsKey(String prefixKey, String key);
+    boolean containsKey(Object prefixKey, String key);
 
-    V get(String prefixKey, String key);
+    V get(Object prefixKey, String key);
 
-    void put(String prefixKey, String primaryKey, V value);
+    void put(Object prefixKey, String primaryKey, V value);
 
-    void remove(String prefixKey, String key);
+    void remove(Object prefixKey, String key);
 
-    void clear(String prefixKey);
+    void clear(Object prefixKey);
 
-    Set<String> keySet(String prefixKey);
+    Set<String> keySet(Object prefixKey);
 
-    Collection<V> values(String prefixKey);
+    Collection<V> values(Object prefixKey);
 }

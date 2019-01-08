@@ -12,7 +12,7 @@ public interface ICacheList<E> extends ICacheCollection<E> {
 
     void set(int index, E element);
 
-    E remove(int index);
+    E removeByIndex(int index);
 
     E getAndRemoveFirst();
 

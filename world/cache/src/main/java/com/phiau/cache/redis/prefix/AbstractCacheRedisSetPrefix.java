@@ -18,57 +18,57 @@ public abstract class AbstractCacheRedisSetPrefix<E> extends AbstractCacheRedis<
     private CacheRedisSetProxy<E> proxy = new CacheRedisSetProxy<>(this);
 
     @Override
-    public Collection<E> all(String prefixKey) {
+    public Collection<E> all(Object prefixKey) {
         return proxy.all(setOperations(prefixKey));
     }
 
     @Override
-    public E randomMember(String prefixKey) {
+    public E randomMember(Object prefixKey) {
         return proxy.randomMember(setOperations(prefixKey));
     }
 
     @Override
-    public Collection<E> randomMembers(String prefixKey, int num) {
+    public Collection<E> randomMembers(Object prefixKey, int num) {
         return proxy.randomMembers(setOperations(prefixKey), num);
     }
 
     @Override
-    public boolean contains(String prefixKey, E e) {
+    public boolean contains(Object prefixKey, E e) {
         return proxy.contains(setOperations(prefixKey), e);
     }
 
     @Override
-    public int size(String prefixKey) {
+    public int size(Object prefixKey) {
         return proxy.size(setOperations(prefixKey));
     }
 
     @Override
-    public boolean isEmpty(String prefixKey) {
+    public boolean isEmpty(Object prefixKey) {
         return 0 >= size(prefixKey);
     }
 
     @Override
-    public void add(String prefixKey, E e) {
+    public void add(Object prefixKey, E e) {
         proxy.add(setOperations(prefixKey), e);
     }
 
     @Override
-    public void clear(String prefixKey) {
+    public void clear(Object prefixKey) {
         proxy.clear(redisTemplate, CachePathUtil.cachePath2String(path(), prefixKey));
     }
 
     @Override
-    public Iterator<E> iterator(String prefixKey) {
+    public Iterator<E> iterator(Object prefixKey) {
         throw new UnsupportedOperationException("Redis Set can't get iterator");
     }
 
     @Override
-    public boolean remove(String prefixKey, E e) {
+    public boolean remove(Object prefixKey, E e) {
         return proxy.remove(setOperations(prefixKey), e);
     }
 
-    private final BoundSetOperations<String, String> setOperations(String prefix) {
-        return redisTemplate.boundSetOps(CachePathUtil.cachePath2String(path(), prefix));
+    private final BoundSetOperations<String, String> setOperations(Object prefixKey) {
+        return redisTemplate.boundSetOps(CachePathUtil.cachePath2String(path(), prefixKey));
     }
 
     @Override

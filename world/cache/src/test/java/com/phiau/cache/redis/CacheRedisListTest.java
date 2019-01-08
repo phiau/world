@@ -59,7 +59,7 @@ public class CacheRedisListTest extends BaseJunit4Test {
         Assert.assertTrue(entity01.equals(list.get(0)));
         Assert.assertTrue(entity02.equals(list.get(1)));
         /** remove */
-        CacheRedisListEntity rmEntity = service.remove(2);
+        CacheRedisListEntity rmEntity = service.removeByIndex(2);
         Assert.assertTrue(rmEntity.equals(entity02));
         Assert.assertTrue(!service.remove(rmEntity));
         /** 重新加入，然后在删除 */

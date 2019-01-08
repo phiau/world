@@ -6,7 +6,7 @@ package com.phiau.cache.base;
  */
 public class CachePathUtil {
 
-    public static String cachePath2String(String ... paths) {
+    public static String cachePath2String(Object ... paths) {
         StringBuffer buffer = new StringBuffer();
         int i;
         for (i=0; i<paths.length - 1; i++) {

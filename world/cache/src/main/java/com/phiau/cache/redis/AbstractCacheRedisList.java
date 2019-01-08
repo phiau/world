@@ -27,7 +27,7 @@ public abstract class AbstractCacheRedisList<E> extends AbstractCacheRedis<E> im
     }
 
     @Override
-    public E remove(int index) {
+    public E removeByIndex(int index) {
         E e = get(index);
         if (null != e) {
             remove(e);

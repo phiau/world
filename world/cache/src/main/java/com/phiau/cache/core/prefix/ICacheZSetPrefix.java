@@ -14,7 +14,7 @@ public interface ICacheZSetPrefix extends ICacheCollectionPrefix {
      * @param key 键，如玩家 id
      * @param score 分数
      */
-    void add(String prefixKey, String key, double score);
+    void add(Object prefixKey, String key, double score);
 
     /**
      * 分数在 min 和 max 之间的元素个数
@@ -22,7 +22,7 @@ public interface ICacheZSetPrefix extends ICacheCollectionPrefix {
      * @param max
      * @return
      */
-    long count(String prefixKey, double min, double max);
+    long count(Object prefixKey, double min, double max);
 
     /**
      * 为排行榜中的 v 元素增加分数
@@ -30,7 +30,7 @@ public interface ICacheZSetPrefix extends ICacheCollectionPrefix {
      * @param delta
      * @return
      */
-    double incrementScore(String prefixKey, String key, double delta);
+    double incrementScore(Object prefixKey, String key, double delta);
 
     /**
      * 得到排名在 start 和 end 之间的元素有序集合
@@ -38,9 +38,9 @@ public interface ICacheZSetPrefix extends ICacheCollectionPrefix {
      * @param end 如果是 -1，标识最后一个
      * @return
      */
-    Set<String> range(String prefixKey, long start, long end);
+    Set<String> range(Object prefixKey, long start, long end);
 
-    Set<String> reverseRange(String prefixKey, long start, long end);
+    Set<String> reverseRange(Object prefixKey, long start, long end);
 
     /**
      * 得到分数在 min 和 max 之间的元素有序集合
@@ -48,27 +48,27 @@ public interface ICacheZSetPrefix extends ICacheCollectionPrefix {
      * @param max
      * @return
      */
-    Set<String> rangeByScore(String prefixKey, double min, double max);
+    Set<String> rangeByScore(Object prefixKey, double min, double max);
 
-    Set<String> reverseRangeByScore(String prefixKey, double min, double max);
+    Set<String> reverseRangeByScore(Object prefixKey, double min, double max);
 
     /**
      *得到元素排名，第一名为 0
      * @param key
      * @return
      */
-    long rank(String prefixKey, String key);
+    long rank(Object prefixKey, String key);
 
-    long reverseRank(String prefixKey, String key);
+    long reverseRank(Object prefixKey, String key);
 
-    void removeRange(String prefixKey, long start, long end);
+    void removeRange(Object prefixKey, long start, long end);
 
-    void removeRangeByScore(String prefixKey, double min, double max);
+    void removeRangeByScore(Object prefixKey, double min, double max);
 
     /**
      * 得到元素的得分
      * @param key
      * @return
      */
-    double score(String prefixKey, String key);
+    double score(Object prefixKey, String key);
 }

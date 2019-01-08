@@ -18,17 +18,17 @@ public abstract class AbstractCacheRedisListPrefix<E> extends AbstractCacheRedis
     private CacheRedisListProxy<E> proxy = new CacheRedisListProxy<>(this);
 
     @Override
-    public E get(String prefixKey, int index) {
+    public E get(Object prefixKey, int index) {
         return proxy.get(boundListOps(prefixKey), index);
     }
 
     @Override
-    public void set(String prefixKey, int index, E element) {
+    public void set(Object prefixKey, int index, E element) {
         proxy.set(boundListOps(prefixKey), index, element);
     }
 
     @Override
-    public E remove(String prefixKey, int index) {
+    public E removeByIndex(Object prefixKey, int index) {
         E e = get(prefixKey, index);
         if (null != e) {
             remove(prefixKey, e);
@@ -37,52 +37,52 @@ public abstract class AbstractCacheRedisListPrefix<E> extends AbstractCacheRedis
     }
 
     @Override
-    public boolean remove(String prefixKey, E e) {
+    public boolean remove(Object prefixKey, E e) {
         return proxy.remove(boundListOps(prefixKey), e);
     }
 
     @Override
-    public List<E> subList(String prefixKey, int fromIndex, int toIndex) {
+    public List<E> subList(Object prefixKey, int fromIndex, int toIndex) {
         return proxy.subList(boundListOps(prefixKey), fromIndex, toIndex);
     }
 
     @Override
-    public int size(String prefixKey) {
+    public int size(Object prefixKey) {
         return proxy.size(boundListOps(prefixKey));
     }
 
     @Override
-    public boolean isEmpty(String prefixKey) {
+    public boolean isEmpty(Object prefixKey) {
         return 0 >= size(prefixKey);
     }
 
     @Override
-    public void add(String prefixKey, E e) {
+    public void add(Object prefixKey, E e) {
         proxy.add(boundListOps(prefixKey), e);
     }
 
     @Override
-    public E getAndRemoveFirst(String prefixKey) {
+    public E getAndRemoveFirst(Object prefixKey) {
         return proxy.getAndRemoveFirst(boundListOps(prefixKey));
     }
 
     @Override
-    public E getAndRemoveLast(String prefixKey) {
+    public E getAndRemoveLast(Object prefixKey) {
         return proxy.getAndRemoveLast(boundListOps(prefixKey));
     }
 
     @Override
-    public void clear(String prefixKey) {
+    public void clear(Object prefixKey) {
         proxy.clear(redisTemplate, CachePathUtil.cachePath2String(path(), prefixKey));
     }
 
     @Override
-    public Iterator<E> iterator(String prefixKey) {
+    public Iterator<E> iterator(Object prefixKey) {
         throw new UnsupportedOperationException("Redis List can't get iterator");
     }
 
-    private final BoundListOperations boundListOps(String prefix) {
-        return redisTemplate.boundListOps(CachePathUtil.cachePath2String(path(), prefix));
+    private final BoundListOperations boundListOps(Object prefixKey) {
+        return redisTemplate.boundListOps(CachePathUtil.cachePath2String(path(), prefixKey));
     }
 
     @Override

@@ -8,15 +8,15 @@ import java.util.List;
  */
 public interface ICacheListPrefix<E> extends ICacheCollectionPrefix<E> {
 
-    E get(String prefixKey, int index);
+    E get(Object prefixKey, int index);
 
-    void set(String prefixKey, int index, E element);
+    void set(Object prefixKey, int index, E element);
 
-    E remove(String prefixKey, int index);
+    E removeByIndex(Object prefixKey, int index);
 
-    E getAndRemoveFirst(String prefixKey);
+    E getAndRemoveFirst(Object prefixKey);
 
-    E getAndRemoveLast(String prefixKey);
+    E getAndRemoveLast(Object prefixKey);
 
-    List<E> subList(String prefixKey, int fromIndex, int toIndex);
+    List<E> subList(Object prefixKey, int fromIndex, int toIndex);
 }
