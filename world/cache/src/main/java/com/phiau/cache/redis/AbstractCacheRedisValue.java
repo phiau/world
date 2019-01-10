@@ -13,12 +13,12 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractCacheRedisValue<V> extends AbstractCacheRedis<V> implements ICacheValue<V> {
 
     @Override
-    public void delete(String key) {
+    public void delete(Object key) {
         redisTemplate.delete(CachePathUtil.cachePath2String(path(), key));
     }
 
     @Override
-    public V get(String key) {
+    public V get(Object key) {
         String s = boundValueOps(key).get();
         if (null != s) {
             return decode(s);
@@ -27,7 +27,7 @@ public abstract class AbstractCacheRedisValue<V> extends AbstractCacheRedis<V> i
     }
 
     @Override
-    public V getAndSet(String key, V value) {
+    public V getAndSet(Object key, V value) {
         String s = boundValueOps(key).getAndSet(encode(value));
         if (null != s) {
             return decode(s);
@@ -36,17 +36,17 @@ public abstract class AbstractCacheRedisValue<V> extends AbstractCacheRedis<V> i
     }
 
     @Override
-    public void set(String key, V value) {
+    public void set(Object key, V value) {
         boundValueOps(key).set(encode(value));
     }
 
     @Override
-    public void set(String key, V value, long timeout, TimeUnit unit) {
+    public void set(Object key, V value, long timeout, TimeUnit unit) {
         boundValueOps(key).set(encode(value), timeout, unit);
     }
 
     @Override
-    public boolean setIfAbsent(String key, V value) {
+    public boolean setIfAbsent(Object key, V value) {
         return boundValueOps(key).setIfAbsent(encode(value));
     }
 
@@ -55,7 +55,7 @@ public abstract class AbstractCacheRedisValue<V> extends AbstractCacheRedis<V> i
         return CachePathUtil.cachePath2String(super.path(), "value");
     }
 
-    private final BoundValueOperations<String, String> boundValueOps(String key) {
+    private final BoundValueOperations<String, String> boundValueOps(Object key) {
         return redisTemplate.boundValueOps(CachePathUtil.cachePath2String(path(), key));
     }
 }

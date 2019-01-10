@@ -8,20 +8,20 @@ import java.util.concurrent.TimeUnit;
  */
 public interface ICacheValue<V> {
 
-    void delete(String key);
+    void delete(Object key);
 
-    V get(String key);
+    V get(Object key);
 
-    V getAndSet(String key, V value);
+    V getAndSet(Object key, V value);
 
-    void set(String key, V value);
+    void set(Object key, V value);
 
-    void set(String key, V value, long timeout, TimeUnit unit);
+    void set(Object key, V value, long timeout, TimeUnit unit);
 
     /**
      * 如果绑定键不存在，则将绑定键设置为保留字符串值
      * @param value
      * @return
      */
-    boolean setIfAbsent(String key, V value);
+    boolean setIfAbsent(Object key, V value);
 }

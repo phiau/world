@@ -1,6 +1,7 @@
 package com.phiau.cache.core.prefix;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,17 +14,19 @@ public interface ICacheMapPrefix<V> {
 
     boolean isEmpty(Object prefixKey);
 
-    boolean containsKey(Object prefixKey, String key);
+    boolean containsKey(Object prefixKey, Object key);
 
-    V get(Object prefixKey, String key);
+    V get(Object prefixKey, Object key);
 
-    void put(Object prefixKey, String primaryKey, V value);
+    List<V> multiGet(Object prefixKey, Collection<?> keys);
 
-    void remove(Object prefixKey, String key);
+    void put(Object prefixKey, Object primaryKey, V value);
+
+    long remove(Object prefixKey, Object key);
 
     void clear(Object prefixKey);
 
     Set<String> keySet(Object prefixKey);
 
-    Collection<V> values(Object prefixKey);
+    List<V> values(Object prefixKey);
 }

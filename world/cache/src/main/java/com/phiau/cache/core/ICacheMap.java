@@ -1,29 +1,34 @@
 package com.phiau.cache.core;
 
+import com.phiau.cache.base.ICacheMapPrimaryKey;
+
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
  * User: zhenbiao.cai
  * Date: 2018-11-26 21:57
  */
-public interface ICacheMap<V> {
+public interface ICacheMap<V extends ICacheMapPrimaryKey> {
 
     long size();
 
     boolean isEmpty();
 
-    boolean containsKey(String key);
+    boolean containsKey(Object key);
 
-    V get(String key);
+    V get(Object key);
 
-    void put(String primaryKey, V value);
+    List<V> multiGet(Collection<?> keys);
 
-    void remove(String key);
+    void put(V value);
+
+    long remove(Object key);
 
     void clear();
 
     Set<String> keySet();
 
-    Collection<V> values();
+    List<V> values();
 }

@@ -7,6 +7,7 @@ import com.phiau.cache.redis.proxy.CacheRedisMapProxy;
 import org.springframework.data.redis.core.BoundHashOperations;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,23 +29,28 @@ public abstract class AbstractCacheRedisMapPrefix<V> extends AbstractCacheRedis<
     }
 
     @Override
-    public boolean containsKey(Object prefixKey, String key) {
+    public boolean containsKey(Object prefixKey, Object key) {
         return proxy.containsKey(hashOperations(prefixKey), key);
     }
 
     @Override
-    public V get(Object prefixKey, String key) {
+    public V get(Object prefixKey, Object key) {
         return proxy.get(hashOperations(prefixKey), key);
     }
 
     @Override
-    public void put(Object prefixKey, String primaryKey, V value) {
+    public List<V> multiGet(Object prefixKey, Collection<?> keys) {
+        return proxy.multiGet(hashOperations(prefixKey), keys);
+    }
+
+    @Override
+    public void put(Object prefixKey, Object primaryKey, V value) {
         proxy.put(hashOperations(prefixKey), primaryKey, value);
     }
 
     @Override
-    public void remove(Object prefixKey, String key) {
-        proxy.remove(hashOperations(prefixKey), key);
+    public long remove(Object prefixKey, Object key) {
+        return proxy.remove(hashOperations(prefixKey), key);
     }
 
     @Override
@@ -58,7 +64,7 @@ public abstract class AbstractCacheRedisMapPrefix<V> extends AbstractCacheRedis<
     }
 
     @Override
-    public Collection<V> values(Object prefixKey) {
+    public List<V> values(Object prefixKey) {
         return proxy.values(hashOperations(prefixKey));
     }
 
