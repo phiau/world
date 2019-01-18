@@ -3,6 +3,7 @@ package com.phiau.cache.core;
 import java.util.Set;
 
 /**
+ * 接口和 ICacheZSetPrefix 保护一致
  * @author zhenbiao.cai
  * @date 2018/12/15 11:48
  */
@@ -12,7 +13,7 @@ public interface ICacheZSet extends ICacheCollection {
      * @param key 键，如玩家 id
      * @param score 分数
      */
-    void add(String key, double score);
+    void add(Object key, double score);
 
     /**
      * 分数在 min 和 max 之间的元素个数
@@ -28,7 +29,7 @@ public interface ICacheZSet extends ICacheCollection {
      * @param delta
      * @return
      */
-    double incrementScore(String key, double delta);
+    double incrementScore(Object key, double delta);
 
     /**
      * 得到排名 rank 元素
@@ -54,6 +55,8 @@ public interface ICacheZSet extends ICacheCollection {
 
     Set<String> reverseRange(long start, long end);
 
+    Set<String> all();
+
     /**
      * 得到分数在 min 和 max 之间的元素有序集合
      * @param min
@@ -69,9 +72,9 @@ public interface ICacheZSet extends ICacheCollection {
      * @param key
      * @return
      */
-    long rank(String key);
+    long rank(Object key);
 
-    long reverseRank(String key);
+    long reverseRank(Object key);
 
     void removeRange(long start, long end);
 
@@ -82,5 +85,5 @@ public interface ICacheZSet extends ICacheCollection {
      * @param key
      * @return
      */
-    double score(String key);
+    double score(Object key);
 }

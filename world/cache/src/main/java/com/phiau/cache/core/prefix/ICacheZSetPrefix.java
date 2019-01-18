@@ -14,7 +14,7 @@ public interface ICacheZSetPrefix extends ICacheCollectionPrefix {
      * @param key 键，如玩家 id
      * @param score 分数
      */
-    void add(Object prefixKey, String key, double score);
+    void add(Object prefixKey, Object key, double score);
 
     /**
      * 分数在 min 和 max 之间的元素个数
@@ -30,7 +30,14 @@ public interface ICacheZSetPrefix extends ICacheCollectionPrefix {
      * @param delta
      * @return
      */
-    double incrementScore(Object prefixKey, String key, double delta);
+    double incrementScore(Object prefixKey, Object key, double delta);
+
+    /**
+     * 得到排名 rank 元素
+     * @param rank
+     * @return
+     */
+    String range(Object prefixKey, long rank);
 
     /**
      * 得到排名在 start 和 end 之间的元素有序集合
@@ -40,7 +47,16 @@ public interface ICacheZSetPrefix extends ICacheCollectionPrefix {
      */
     Set<String> range(Object prefixKey, long start, long end);
 
+    /**
+     * 得到排名 rank 元素
+     * @param rank
+     * @return
+     */
+    String reverseRange(Object prefixKey, long rank);
+
     Set<String> reverseRange(Object prefixKey, long start, long end);
+
+    Set<String> all(Object prefixKey);
 
     /**
      * 得到分数在 min 和 max 之间的元素有序集合
@@ -57,9 +73,9 @@ public interface ICacheZSetPrefix extends ICacheCollectionPrefix {
      * @param key
      * @return
      */
-    long rank(Object prefixKey, String key);
+    long rank(Object prefixKey, Object key);
 
-    long reverseRank(Object prefixKey, String key);
+    long reverseRank(Object prefixKey, Object key);
 
     void removeRange(Object prefixKey, long start, long end);
 
@@ -70,5 +86,5 @@ public interface ICacheZSetPrefix extends ICacheCollectionPrefix {
      * @param key
      * @return
      */
-    double score(Object prefixKey, String key);
+    double score(Object prefixKey, Object key);
 }

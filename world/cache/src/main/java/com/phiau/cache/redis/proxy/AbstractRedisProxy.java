@@ -3,6 +3,7 @@ package com.phiau.cache.redis.proxy;
 import com.phiau.cache.base.ICacheSerialize;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,5 +36,35 @@ public abstract class AbstractRedisProxy<E> implements ICacheSerialize<E> {
     @Override
     public E decode(String s) {
         return serialize.decode(s);
+    }
+
+    /**
+     * Object key 转 String
+     * @return
+     */
+    protected String key2String(Object k) {
+        if (String.class == k.getClass()) {
+            return (String) k;
+        }
+        return String.valueOf(k);
+    }
+
+    /**
+     * Object key 列表转 String 列表
+     * @param ks
+     * @return
+     */
+    protected Collection<String> key2String(Collection<?> ks) {
+        if (null != ks && 0 < ks.size()) {
+            if (String.class == ks.iterator().next().getClass()) {
+                return (Collection<String>) ks;
+            }
+            List<String> list = new ArrayList<>(ks.size());
+            for (Object o : ks) {
+                list.add(key2String(o));
+            }
+            return list;
+        }
+        return null;
     }
 }

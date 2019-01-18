@@ -15,10 +15,15 @@ import java.util.Set;
  */
 public abstract class AbstractCacheRedisZSetPrefix extends AbstractCacheRedis implements ICacheZSetPrefix {
 
-    private CacheRedisZSetProxy proxy = new CacheRedisZSetProxy(this);
+    private CacheRedisZSetProxy proxy;
+
+    public AbstractCacheRedisZSetPrefix(int logicFirstIndex) {
+        super();
+        proxy = new CacheRedisZSetProxy(this, logicFirstIndex);
+    }
 
     @Override
-    public void add(Object prefixKey, String key, double score) {
+    public void add(Object prefixKey, Object key, double score) {
         proxy.add(zSetOperations(prefixKey), key, score);
     }
 
@@ -28,8 +33,13 @@ public abstract class AbstractCacheRedisZSetPrefix extends AbstractCacheRedis im
     }
 
     @Override
-    public double incrementScore(Object prefixKey, String key, double delta) {
+    public double incrementScore(Object prefixKey, Object key, double delta) {
         return proxy.incrementScore(zSetOperations(prefixKey), key, delta);
+    }
+
+    @Override
+    public String range(Object prefixKey, long rank) {
+        return proxy.range(zSetOperations(prefixKey), rank);
     }
 
     @Override
@@ -38,8 +48,18 @@ public abstract class AbstractCacheRedisZSetPrefix extends AbstractCacheRedis im
     }
 
     @Override
+    public String reverseRange(Object prefixKey, long rank) {
+        return proxy.reverseRange(zSetOperations(prefixKey), rank);
+    }
+
+    @Override
     public Set<String> reverseRange(Object prefixKey, long start, long end) {
         return proxy.reverseRange(zSetOperations(prefixKey), start, end);
+    }
+
+    @Override
+    public Set<String> all(Object prefixKey) {
+        return proxy.all(zSetOperations(prefixKey));
     }
 
     @Override
@@ -53,12 +73,12 @@ public abstract class AbstractCacheRedisZSetPrefix extends AbstractCacheRedis im
     }
 
     @Override
-    public long rank(Object prefixKey, String key) {
+    public long rank(Object prefixKey, Object key) {
         return proxy.rank(zSetOperations(prefixKey), key);
     }
 
     @Override
-    public long reverseRank(Object prefixKey, String key) {
+    public long reverseRank(Object prefixKey, Object key) {
         return proxy.reverseRank(zSetOperations(prefixKey), key);
     }
 
@@ -73,7 +93,7 @@ public abstract class AbstractCacheRedisZSetPrefix extends AbstractCacheRedis im
     }
 
     @Override
-    public double score(Object prefixKey, String key) {
+    public double score(Object prefixKey, Object key) {
         return proxy.score(zSetOperations(prefixKey), key);
     }
 

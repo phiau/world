@@ -1,6 +1,7 @@
 package com.phiau.cache.redis.prefix;
 
 import com.phiau.cache.base.CachePathUtil;
+import com.phiau.cache.base.ICacheMapPrimaryKey;
 import com.phiau.cache.core.prefix.ICacheMapPrefix;
 import com.phiau.cache.redis.AbstractCacheRedis;
 import com.phiau.cache.redis.proxy.CacheRedisMapProxy;
@@ -14,7 +15,7 @@ import java.util.Set;
  * @author zhenbiao.cai
  * @date 2018/11/28 20:02
  */
-public abstract class AbstractCacheRedisMapPrefix<V> extends AbstractCacheRedis<V> implements ICacheMapPrefix<V> {
+public abstract class AbstractCacheRedisMapPrefix<V extends ICacheMapPrimaryKey> extends AbstractCacheRedis<V> implements ICacheMapPrefix<V> {
 
     private CacheRedisMapProxy<V> proxy = new CacheRedisMapProxy<>(this);
 
@@ -44,8 +45,8 @@ public abstract class AbstractCacheRedisMapPrefix<V> extends AbstractCacheRedis<
     }
 
     @Override
-    public void put(Object prefixKey, Object primaryKey, V value) {
-        proxy.put(hashOperations(prefixKey), primaryKey, value);
+    public void put(Object prefixKey, V value) {
+        proxy.put(hashOperations(prefixKey), value.primaryKey(), value);
     }
 
     @Override

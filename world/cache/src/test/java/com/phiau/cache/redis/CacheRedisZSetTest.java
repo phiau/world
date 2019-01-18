@@ -54,6 +54,11 @@ public class CacheRedisZSetTest extends BaseJunit4Test {
 
     @Component
     public static class CacheRedisZSetServiceTest extends AbstractCacheRedisZSet {
+
+        public CacheRedisZSetServiceTest() {
+            super(0);
+        }
+
         @Override
         public String path() {
             return CachePathUtil.cachePath2String(super.path(), "CacheRedisZSetServiceTest");

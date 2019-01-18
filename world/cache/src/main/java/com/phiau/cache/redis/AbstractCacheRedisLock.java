@@ -35,7 +35,7 @@ public abstract class AbstractCacheRedisLock implements ICacheLock, ICachePath {
 
     @Override
     public void lock(String childKey) {
-        lock(childKey, RETRY_AWAIT, TimeUnit.MICROSECONDS);
+        lock(childKey, RETRY_AWAIT, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -65,12 +65,12 @@ public abstract class AbstractCacheRedisLock implements ICacheLock, ICachePath {
 
     @Override
     public boolean tryLock(String key) {
-        return tryLock(key, RETRY_AWAIT, TimeUnit.MICROSECONDS);
+        return tryLock(key, RETRY_AWAIT, TimeUnit.MILLISECONDS);
     }
 
     @Override
     public boolean tryLock(String key, int time) {
-        return tryLock(key, time, TimeUnit.MICROSECONDS);
+        return tryLock(key, time, TimeUnit.MILLISECONDS);
     }
 
     @Override

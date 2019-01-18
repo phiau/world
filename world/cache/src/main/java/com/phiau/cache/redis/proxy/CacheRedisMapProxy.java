@@ -3,7 +3,6 @@ package com.phiau.cache.redis.proxy;
 import com.phiau.cache.base.ICacheSerialize;
 import org.springframework.data.redis.core.BoundHashOperations;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -16,36 +15,6 @@ public class CacheRedisMapProxy<E> extends AbstractRedisProxy<E> {
 
     public CacheRedisMapProxy(ICacheSerialize<E> serialize) {
         super(serialize);
-    }
-
-    /**
-     * Object key 转 String
-     * @return
-     */
-    private String key2String(Object k) {
-        if (String.class == k.getClass()) {
-            return (String) k;
-        }
-        return String.valueOf(k);
-    }
-
-    /**
-     * Object key 列表转 String 列表
-     * @param ks
-     * @return
-     */
-    private Collection<String> key2String(Collection<?> ks) {
-        if (null != ks && 0 < ks.size()) {
-            if (String.class == ks.iterator().next().getClass()) {
-                return (Collection<String>) ks;
-            }
-            List<String> list = new ArrayList<>(ks.size());
-            for (Object o : ks) {
-                list.add(key2String(o));
-            }
-            return list;
-        }
-        return null;
     }
 
     public long size(BoundHashOperations operations) {

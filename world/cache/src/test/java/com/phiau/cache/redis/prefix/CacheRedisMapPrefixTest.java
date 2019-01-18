@@ -2,6 +2,7 @@ package com.phiau.cache.redis.prefix;
 
 import com.phiau.BaseJunit4Test;
 import com.phiau.cache.base.CachePathUtil;
+import com.phiau.cache.base.ICacheMapPrimaryKey;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class CacheRedisMapPrefixTest extends BaseJunit4Test {
         service.clear(prefix01);
         CacheRedisMapPrefixEntity entity01 = new CacheRedisMapPrefixEntity(prefix01, primary01, content01);
         /** 添加 */
-        service.put(entity01.prefix, entity01.primary, entity01);
+        service.put(entity01.prefix, entity01);
         boolean contains = service.containsKey(prefix01, primary01);
         Assert.assertTrue(contains);
         /** 删除 */
@@ -38,7 +39,7 @@ public class CacheRedisMapPrefixTest extends BaseJunit4Test {
         boolean empty = service.isEmpty(prefix01);
         Assert.assertTrue(empty);
         /** 获取 */
-        service.put(entity01.getPrefix(), entity01.primary, entity01);
+        service.put(entity01.getPrefix(), entity01);
         CacheRedisMapPrefixTest.CacheRedisMapPrefixEntity otherEntity = service.get(prefix01, primary01);
         Assert.assertTrue(entity01.equals(otherEntity));
         empty = service.isEmpty(prefix01);
@@ -64,7 +65,7 @@ public class CacheRedisMapPrefixTest extends BaseJunit4Test {
         }
     }
 
-    private static class CacheRedisMapPrefixEntity {
+    private static class CacheRedisMapPrefixEntity implements ICacheMapPrimaryKey {
         private String prefix;
         private String primary;
         private String content;
@@ -90,6 +91,11 @@ public class CacheRedisMapPrefixTest extends BaseJunit4Test {
             if (getClass() != obj.getClass()) return false;
             CacheRedisMapPrefixTest.CacheRedisMapPrefixEntity other = (CacheRedisMapPrefixTest.CacheRedisMapPrefixEntity) obj;
             return prefix.equals(other.prefix)&&primary.equals(other.primary) && content.equals(other.content);
+        }
+
+        @Override
+        public Object primaryKey() {
+            return primary;
         }
     }
 }

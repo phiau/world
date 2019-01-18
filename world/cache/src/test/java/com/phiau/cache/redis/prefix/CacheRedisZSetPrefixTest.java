@@ -54,6 +54,11 @@ public class CacheRedisZSetPrefixTest extends BaseJunit4Test {
 
     @Component
     public static class CacheRedisZSetPrefixServiceTest extends AbstractCacheRedisZSetPrefix {
+
+        public CacheRedisZSetPrefixServiceTest() {
+            super(0);
+        }
+
         @Override
         public String path() {
             return CachePathUtil.cachePath2String(super.path(), "CacheRedisZSetPrefixServiceTest");
